@@ -1,17 +1,17 @@
 # Project-2: AWS_Cloud_Webapp_Lift-Shift
 AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration strategy
 
-  About the Project:
+  ### About the Project:
   - Multi Tier web application stack [Vprofile].
   - Host & run on AWS cloud for production.
   - Lift & Shift migration strategy.
 
-  Scenario:
+  ### Scenario:
   - Application services running on physical computers/VM.
   - Workload in your Data center.
   - Virtualization team, DC ops team, Monitoring team, Sys Admin team, etc are involved.
 
-  Problem:
+  ### Problem:
   - Complex management.
   - Scale up/down complexity.
   - Upfront cap ex & Regular Op ex.
@@ -19,7 +19,7 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
   - Difficult to automate.
   - Time consuming.
 
-  Solution:
+  ### Solution:
   - Cloud setup.
   - Pay As U Go.
   - IAAS.
@@ -27,14 +27,14 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
   - Ease of Infra management.
   - Automation.
 
-  Vprofile project Architecture:
+  ### Vprofile project Architecture:
   1. Nginx (Load Balancer)
   2. Tomcat
   3. RabbitMQ
   4. Memcached
   5. MySQL
 
-  AWS services used:
+  ### AWS services used:
   1. EC2 - VM for Tomcat, RabbitMQ, Memcached, MySQL.
   2. ELB - Nginx LB replacement.
   3. Autoscaling - Automation for VM scaling.
@@ -42,7 +42,7 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
   5. Route53 - Private DNS service.
   6. Amazon Certificate Manager[ACM] - For securing website.
 
-  Flow of Execution:
+  ### Flow of Execution:
   1. Login to AWS.
   2. Create Key pair.
   3. Create Security Groups.
@@ -56,12 +56,12 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
   11. Access the website and verify.
   12. Add tomcat EC2 instance to Autoscaling group for scalability.
 
-  Prerequisites:
+  ### Prerequisites:
       1. Chocolatey for windows (Package manager)
-        + Open powershell as admin
+        * Open powershell as admin
           - $ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-        + Press 'Y' when prompted
-        + verify $ choco --version
+        * Press 'Y' when prompted
+        * verify $ choco --version
 
       2. Java11
         $ choco install adoptopenjdk11 --version=11.0.11.9
@@ -78,7 +78,7 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
         $ aws --version
 
    
-  Detailed steps:
+  ### Detailed steps:
   - Create ACM certificate & attach it to Domain service provider & validate it.
 
   - Create security groups
@@ -188,5 +188,5 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
     + verify in the browser => https://vprofile.<domain>
     + Login as admin_vp (username and password both) check the services
 
-  Credits:
+  ### Credits:
   <Github link>
