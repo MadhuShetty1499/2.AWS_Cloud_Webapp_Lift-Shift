@@ -59,23 +59,25 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
   ### Prerequisites:
       1. Chocolatey for windows (Package manager)
         * Open powershell as admin
-          - $ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+          - `$ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))`
         * Press 'Y' when prompted
         * verify $ choco --version
 
       2. Java11
-        $ choco install adoptopenjdk11 --version=11.0.11.9
-        $ java -version
+        `$ choco install adoptopenjdk11 --version=11.0.11.9`
+        `$ java -version`
 
       3. Maven3
-        $ choco install maven --version=3.8.4
-        $ maven -version
+        `$ choco install maven --version=3.8.4`
+        `$ maven -version`
 
       4. AWS CLI
+        ```
         $ choco install python
         $ pip --version
         $ pip install awscli
         $ aws --version
+        ```
 
    
   ### Detailed steps:
@@ -130,10 +132,10 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
   Note: Those bash scripts contains installing and provisioning services. Go through the scripts <PATH> and also you can install manually by typing those commands into your respective EC2 instances.
 
   - Login to all instances and check the services are running:
-    + to login - $ ssh -i <keypair> <user>@<publicIP> (user name and ssh command can be found by selecting required instance and click on connect => ssh client)
-    + to check the services - $ systemctl status <servicename>
-                              $ ss -plunt | grep <portnumber>
-                              $ netstat -plant | grep <portnumber>
+    + to login - `$ ssh -i <keypair> <user>@<publicIP>` (user name and ssh command can be found by selecting required instance and click on connect => ssh client)
+    + to check the services - `$ systemctl status <servicename>`
+                              `$ ss -plunt | grep <portnumber>`
+                              `$ netstat -plant | grep <portnumber>`
                               service name & its ports (can check in application.properties file)
                                 - mariadb (3306)
                                 - memcached (11211)
@@ -147,29 +149,29 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
     + Create record => simple routing => rmq01 => <private ip of rmq01 instance> => A record => create
 
   - Build & Deploy artifact:
-    + Clone the source code to local - $ git clone <URL>
+    + Clone the source code to local - `$ git clone <URL>`
     + In VS code => ctrl + shift + p => search default terminal profile => select git bash => view => terminal
     + Go to cloned repo => in src/main/resources/application.properties => change host names to db01.vprofile.in, mc01.vprofile.in, rmq01.vprofile.in
     + In VS code terminal, check maven3, java11 and aws cli are installed.
-    + Go to directory where pom.xml is present => build the artifact $ mvn install
+    + Go to directory where pom.xml is present => build the artifact `$ mvn install`
 
   - Create IAM user:
     + IAM => user => s3admin => attach policy (s3 full access) => create => download csv file (keep it safe)
-    + In git bash, configure aws credentials - $ aws configure (provide access key, secret key, region[us-east-1], output format[json] that are found in csv file)
+    + In git bash, configure aws credentials - `$ aws configure` (provide access key, secret key, region[us-east-1], output format[json] that are found in csv file)
 
   - Upload artifact to S3 bucket:
-    + create bucket - $ aws s3 mb s3://<bucket_name> (Note: Bucket name should be unique or else it won't create)
-    + Copy artifact to bucket - $ aws s3 cp target/vprofilev2.war s3://<bucket_name>
+    + create bucket - `$ aws s3 mb s3://<bucket_name>` (Note: Bucket name should be unique or else it won't create)
+    + Copy artifact to bucket - `$ aws s3 cp target/vprofilev2.war s3://<bucket_name>`
 
   - Deploy artifact on tomcat server
-    + Login to tomcat instance - $ ssh -i <keypair> <user>@<publicIP>
-    + Install aws cli - $ sudo apt update && sudo apt install awscli -y && aws --version
+    + Login to tomcat instance - `$ ssh -i <keypair> <user>@<publicIP>`
+    + Install aws cli - `$ sudo apt update && sudo apt install awscli -y && aws --version`
     + To access S3 bucket, the instance needs aws credentials to be configured as we did previously or else we can create a role and attach to the instance. Create role in IAM => s3 admin => attach policy (s3 full access) => create => go to ec2 => click on tomcat instance => instance settings => modify IAM role => select s3 admin role => attach.
-    + Copy artifact from S3 to temp folder - $ aws s3 cp s3://<bucket_name> /tmp/
-    + Stop tomcat service - $ systemctl stop tomcat9
-    + Remove ROOT folder in tomcat directory - $ rm -rf /var/lib/tomcat9/webapps/ROOT
-    + Copy & rename artifact as ROOT.war - $ cp /tmp/vprofilev2.war /var/lib/tomcat9/webapps/ROOT.war
-    + Start the service - $ systemctl start tomcat9
+    + Copy artifact from S3 to temp folder - `$ aws s3 cp s3://<bucket_name> /tmp/`
+    + Stop tomcat service - `$ systemctl stop tomcat9`
+    + Remove ROOT folder in tomcat directory - `$ rm -rf /var/lib/tomcat9/webapps/ROOT`
+    + Copy & rename artifact as ROOT.war - `$ cp /tmp/vprofilev2.war /var/lib/tomcat9/webapps/ROOT.war`
+    + Start the service - `$ systemctl start tomcat9`
     + Check application.properties file in /var/lib/tomcat9/webapps/ROOT/web-Inf/classes/application.properties
 
   - Create Load Balancer:
