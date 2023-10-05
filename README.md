@@ -177,7 +177,7 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
     + Create Target group => give name => port 8080 => health check (/login) => advanced setting => override port 8080 => healthy threshold 3secs => select tomcat instance => include as pending => create target
     + Create Application load balancer => internet facing => select all AZ's => select Load balancer security group => listener (80 & 443) forward to target group => select certificate  => create
     + Copy endpoint of load balancer => entry in domain service provider => CNAME => name (vprofile) => target (paste URL) => add
-    + verify in the browser => https://vprofile.<domain>
+    + verify in the browser => `https://vprofile.<domain>`
 
   - Create Autoscaling Group:
     + Create AMI of tomcat instance => instance setting => images => create AMI
@@ -186,7 +186,7 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
     + Autoscaling group creates a new tomcat instance, so terminate the tomcat instance which is created manually.
 
   - Validate:
-    + verify in the browser => https://vprofile.<domain>
+    + verify in the browser => `https://vprofile.<domain>`
     + Login as admin_vp (username and password both) check the services
 
   ### Credits:
