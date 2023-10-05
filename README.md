@@ -59,7 +59,7 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
   Prerequisites:
       1. Chocolatey for windows (Package manager)
         + Open powershell as admin
-          $ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+          - $ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
         + Press 'Y' when prompted
         + verify $ choco --version
 
