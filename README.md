@@ -2,14 +2,14 @@
 AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration strategy
 
   ### About the Project:
-  - Multi Tier web application stack [Vprofile].
+  - Multi-Tier web application stack [Vprofile].
   - Host & run on AWS cloud for production.
-  - Lift & Shift migration strategy.
+  - Lift and shift migration strategy.
 
   ### Scenario:
   - Application services running on physical computers/VM.
-  - Workload in your Data center.
-  - Virtualization team, DC ops team, Monitoring team, Sys Admin team, etc are involved.
+  - Workload in your Datacenter.
+  - Virtualization team, DC ops team, Monitoring team, Sys Admin team, etc. are involved.
 
   ### Problem:
   - Complex management.
@@ -17,7 +17,7 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
   - Upfront cap ex & Regular Op ex.
   - Manual process.
   - Difficult to automate.
-  - Time consuming.
+  - Time-consuming.
 
   ### Solution:
   - Cloud setup.
@@ -44,50 +44,49 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
 
   ### Flow of Execution:
   1. Login to AWS.
-  2. Create Key pair.
+  2. Create a Key pair.
   3. Create Security Groups.
   4. Launch instance with User data [Bash scripts <PATH>]
   5. Update IP to name mapping in Route53.
   6. Build application from source code.
   7. Upload artifact to S3 bucket.
-  8. Download artifact to Tomcat EC2 instance.
-  9. Setup ELB with HTTPS [Cert from ACM].
-  10. Map ELB endpoint to website name in your Domain service provider.
+  8. Download the artifact to the Tomcat EC2 instance.
+  9. Set up ELB with HTTPS [Cert from ACM].
+  10. Map the ELB endpoint to the website name in your Domain service provider.
   11. Access the website and verify.
-  12. Add tomcat EC2 instance to Autoscaling group for scalability.
+  12. Add Tomcat EC2 instance to the Autoscaling group for scalability.
 
   ### Prerequisites:
-    1. Chocolatey for windows (Package manager)
-      * Open powershell as admin
+  1. Chocolatey for Windows (Package manager)
+      * Open Powershell as admin
         - `$ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))`
       * Press 'Y' when prompted
       * verify $ choco --version
 
-    2. Java11
+  2. Java11
       `$ choco install adoptopenjdk11 --version=11.0.11.9`
       `$ java -version`
 
-    3. Maven3
+  3. Maven3
       `$ choco install maven --version=3.8.4`
       `$ maven -version`
 
-    4. AWS CLI
+  4. AWS CLI
       ```
       $ choco install python
       $ pip --version
       $ pip install awscli
       $ aws --version
       ```
-
    
   ### Detailed steps:
-  - Create ACM certificate & attach it to Domain service provider & validate it.
+  - Create an ACM certificate & attach it to the Domain service provider & validate it.
 
   - Create security groups
-    1. for Load balancer - Allow port 443 from any IP and also 80 from any Ip for debugging.
-    2. for Tomcat - Allow port 8080 from Load balancer security group and also port 22 from myIP or anywhere for logging in.
-    3. for backend services (RabbitMQ, MySQL, Memcached) - Allow port 3306 for MySQL, port 11211 for RabbitMQ & port 5672 for Memcached from Tomcat security group (Port's details are given in application.properties file in source code).
-    4. in backend security group - Allow all traffic from its own security group (backend SG) for internal communication between backend services and also port 22 from myIP or anywhere for logging in.
+    1. For load balancer - Allow port 443 from any IP and 80 from any IP for debugging.
+    2. for Tomcat - Allow port 8080 from the Load balancer security group and port 22 from my IP or anywhere for logging in.
+    3. for backend services (RabbitMQ, MySQL, Memcached) - Allow port 3306 for MySQL, port 11211 for RabbitMQ & port 5672 for Memcached from the Tomcat security group (Port's details are given in the application.properties file in source code).
+    4. in backend security group - Allow all traffic from its security group (backend SG) for internal communication between backend services and port 22 from myIP or anywhere for logging in.
 
   - Create key pair (pem)
 
@@ -95,8 +94,8 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
     + name - db01 & some tags
     + AMI - CentOS 9
     + Instance type - t2.micro
-    + select key pair
-    + with default VPC, select backend security group
+    + Select key pair
+    + With default VPC, select the backend security group
     + in advanced settings, add user data(bash script = mysql.sh)
     + launch
 
@@ -104,8 +103,8 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
     + name - mc01 & some tags
     + AMI - CentOS 9
     + Instance type - t2.micro
-    + select key pair
-    + with default VPC, select backend security group
+    + Select key pair
+    + With default VPC, select the backend security group
     + in advanced settings, add user data(bash script = memcache.sh)
     + launch  
 
@@ -113,8 +112,8 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
     + name - rmq01 & some tags
     + AMI - CentOS 9
     + Instance type - t2.micro
-    + select key pair
-    + with default VPC, select backend security group
+    + Select key pair
+    + With default VPC, select the backend security group
     + in advanced settings, add user data(bash script = rabbitmq.sh)
     + launch 
 
@@ -122,21 +121,21 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
     + name - app01 & some tags
     + AMI - Ubuntu 22
     + Instance type - t2.micro
-    + select key pair
-    + with default VPC, select Tomcat security group
+    + Select key pair
+    + With default VPC, select Tomcat security group
     + in advanced settings, add user data(bash script = tomcat.sh)
     + launch 
 
-  - Wait for about 10 mins to bring up instances and provisioning services.
+  - Wait for about 10 minutes to bring up instances and provisioning services.
 
-  Note: Those bash scripts contains installing and provisioning services. Go through the scripts <PATH> and also you can install manually by typing those commands into your respective EC2 instances.
+  Note: Those bash scripts contain installing and provisioning services. Go through the scripts <PATH> and also you can install manually by typing those commands into your respective EC2 instances.
 
   - Login to all instances and check the services are running:
-    + to login - `$ ssh -i <keypair> <user>@<publicIP>` (user name and ssh command can be found by selecting required instance and click on connect => ssh client)
+    + to log in - `$ ssh -i <keypair> <user>@<publicIP>` (user name and ssh command can be found by selecting the required instance and clicking on connect => ssh client)
     + to check the services - `$ systemctl status <servicename>`
                               `$ ss -plunt | grep <portnumber>`
                               `$ netstat -plant | grep <portnumber>`
-                              service name & its ports (can check in application.properties file)
+                              service-name & its ports (can check in application.properties file)
                                 - mariadb (3306)
                                 - memcached (11211)
                                 - rabbitmq-server (5672)
@@ -156,23 +155,23 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
     + Go to directory where pom.xml is present => build the artifact `$ mvn install`
 
   - Create IAM user:
-    + IAM => user => s3admin => attach policy (s3 full access) => create => download csv file (keep it safe)
-    + In git bash, configure aws credentials - `$ aws configure` (provide access key, secret key, region[us-east-1], output format[json] that are found in csv file)
+    + IAM => user => s3admin => attach policy (s3 full access) => create => download CSV file (keep it safe)
+    + In git bash, configure aws credentials - `$ aws configure` (provide access key, secret key, region[us-east-1], output format[json] that are found in CSV file)
 
   - Upload artifact to S3 bucket:
-    + create bucket - `$ aws s3 mb s3://<bucket_name>` (Note: Bucket name should be unique or else it won't create)
+    + Create bucket - `$ aws s3 mb s3://<bucket_name>` (Note: Bucket name should be unique or else it won't create)
     + Copy artifact to bucket - `$ aws s3 cp target/vprofilev2.war s3://<bucket_name>`
 
-  - Deploy artifact on tomcat server
+  - Deploy artifact on Tomcat server
     + Login to tomcat instance - `$ ssh -i <keypair> <user>@<publicIP>`
     + Install aws cli - `$ sudo apt update && sudo apt install awscli -y && aws --version`
-    + To access S3 bucket, the instance needs aws credentials to be configured as we did previously or else we can create a role and attach to the instance. Create role in IAM => s3 admin => attach policy (s3 full access) => create => go to ec2 => click on tomcat instance => instance settings => modify IAM role => select s3 admin role => attach.
+    + To access the S3 bucket, the instance needs AWS credentials to be configured as we did previously, or else we can create a role and attach it to the instance. Create a role in IAM => s3 admin => attach policy (s3 full access) => create => go to ec2 => click on tomcat instance => instance settings => modify IAM role => select s3 admin role => attach.
     + Copy artifact from S3 to temp folder - `$ aws s3 cp s3://<bucket_name> /tmp/`
     + Stop tomcat service - `$ systemctl stop tomcat9`
     + Remove ROOT folder in tomcat directory - `$ rm -rf /var/lib/tomcat9/webapps/ROOT`
     + Copy & rename artifact as ROOT.war - `$ cp /tmp/vprofilev2.war /var/lib/tomcat9/webapps/ROOT.war`
     + Start the service - `$ systemctl start tomcat9`
-    + Check application.properties file in /var/lib/tomcat9/webapps/ROOT/web-Inf/classes/application.properties
+    + Check the application.properties file in /var/lib/tomcat9/webapps/ROOT/web-Inf/classes/application.properties
 
   - Create Load Balancer:
     + Create Target group => give name => port 8080 => health check (/login) => advanced setting => override port 8080 => healthy threshold 3secs => select tomcat instance => include as pending => create target
@@ -184,7 +183,7 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
     + Create AMI of tomcat instance => instance setting => images => create AMI
     + Create launch configuration => choose created AMI => t2.micro => attach s3 admin role => select tomcat SG => select keypair => create
     + Create autoscaling group => select launch configuration => select all subnets => Application load balancer => target group => health check ELB => min 1, desired 1, max 2 => tracking scaling policy => cpu utilization 50 => enable scale-in protection only if your instance should not get terminated => add SNS topic (Optional) => add tags => create
-    + Autoscaling group creates new tomcat instance, so terminate tomcat instance which is created manually.
+    + Autoscaling group creates a new tomcat instance, so terminate the tomcat instance which is created manually.
 
   - Validate:
     + verify in the browser => https://vprofile.<domain>
