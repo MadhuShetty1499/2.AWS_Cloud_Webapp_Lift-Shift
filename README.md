@@ -57,21 +57,21 @@ AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration 
   12. Add tomcat EC2 instance to Autoscaling group for scalability.
 
   Prerequisites:
-    - Chocolatey for windows (Package manager)
+    1. Chocolatey for windows (Package manager)
       + Open powershell as admin
         $ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
       + Press 'Y' when prompted
       + verify $ choco --version
 
-    - Java11
+    2. Java11
       $ choco install adoptopenjdk11 --version=11.0.11.9
       $ java -version
 
-    - Maven3
+    3. Maven3
       $ choco install maven --version=3.8.4
       $ maven -version
 
-    - AWS CLI
+    4. AWS CLI
       $ choco install python
       $ pip --version
       $ pip install awscli
