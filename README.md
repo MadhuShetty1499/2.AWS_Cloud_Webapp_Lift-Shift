@@ -89,11 +89,14 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
 
   - Create security groups
     1. For load balancer - Allow port 443 from any IP and 80 from any IP for debugging.
+    ![LB-SG](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/LB-SG.png)
 
     2. for Tomcat - Allow port 8080 from the Load balancer security group and port 22 from my IP or anywhere for logging in.
+    ![Tomcat-SG](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/tomcat-SG.png)
 
     3. for backend services (RabbitMQ, MySQL, Memcached) - Allow port 3306 for MySQL, port 11211 for RabbitMQ & port 5672 for Memcached from the Tomcat security group (Port's details are given in the [application.properties](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/src/main/resources/application.properties) file in source code).
     4. in backend security group - Allow all traffic from its security group (backend SG) for internal communication between backend services and port 22 from myIP or anywhere for logging in.
+    ![Backend-SG](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/backend-SG.png)
     
 
   - Create key pair (pem)
