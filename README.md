@@ -1,5 +1,5 @@
 # Project-2: AWS_Cloud_Webapp_Lift-Shift
-AWS Cloud for Multi-Tier Web application setup using Lift &amp; Shift migration strategy
+In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_Tier_Web_App_Local_Setup)), I accomplished the setup of a multi-tier web application locally. In my latest endeavor, I seamlessly migrated this application from my local VM setup to Amazon Web Services (AWS) using the 'lift and shift' strategy. This migration allowed me to leverage AWS's scalability and reliability while minimizing disruptions to the application's functionality. Key steps included provisioning resources, migrating data, and optimizing the setup, resulting in improved scalability, reliability, and cost-efficiency.
 
   ### About the Project:
   - Multi-Tier web application stack [Vprofile].
