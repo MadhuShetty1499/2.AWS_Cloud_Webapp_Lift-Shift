@@ -141,7 +141,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
 
   - Wait for about 10 minutes to bring up instances and provisioning services.
 
-  Note: Those bash scripts contain installing and provisioning services. Go through the scripts <PATH> and also you can install manually by typing those commands into your respective EC2 instances.
+  Note: Those bash scripts contain installing and provisioning services. Go through the scripts [userdata](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/tree/main/userdata) and also you can install manually by typing those commands into your respective EC2 instances.
 
   - Login to all instances and check the services are running:
     + to log in - `$ ssh -i <keypair> <user>@<publicIP>` (user name and ssh command can be found by selecting the required instance and clicking on connect => ssh client)
@@ -153,15 +153,18 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
                                 - memcached (11211)
                                 - rabbitmq-server (5672)
                                 - tomcat9 (8080)
+    + In db01, check the database table - `$ mysql -u admin -padmin123 accounts` => `$ show tables;`
+    + It should show the tables, if not, there would be an error in pasting userdata. Terminate it and recreate, make sure to check the syntax after pasting it because, the syntax will autocorrect sometimes.
 
   - Create Route53 (For private DNS):
-    + Create zone => vprofile.in => private hosted zone => us-east-1(region) => create
-    + Create record => simple routing => db01 => <private ip of db01 instance> => A record => create
-    + Create record => simple routing => mc01 => <private ip of mc01 instance> => A record => create
-    + Create record => simple routing => rmq01 => <private ip of rmq01 instance> => A record => create
+    + Create Hosted zone => Domain name (vprofile.in) => private hosted zone => us-east-1(region) and default VPC => create
+    + Create record => subdomain (db01) => Value (<<private ip of db01 instance>>) => A record => simple routing => create
+    + Create record => subdomain (mc01) => Value (<<private ip of mc01 instance>>) => A record => simple routing => create
+    + Create record => subdomain (rmq01) => Value (<<private ip of rmq01 instance>>) => A record => simple routing => create
+    ![Route53](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/Route53.png)
 
   - Build & Deploy artifact:
-    + Clone the source code to local - `$ git clone <URL>`
+    + Clone the source code to local - `$ git clone https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift.git`
     + In VS code => ctrl + shift + p => search default terminal profile => select git bash => view => terminal
     + Go to cloned repo => in src/main/resources/application.properties => change host names to db01.vprofile.in, mc01.vprofile.in, rmq01.vprofile.in
     + In VS code terminal, check maven3, java11 and aws cli are installed.
