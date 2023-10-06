@@ -28,6 +28,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
   - Automation.
 
   ### Vprofile project Architecture:
+  ![Architecture](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/Vprofile%20projectsetup%20Manual.png)
   1. Nginx (Load Balancer)
   2. Tomcat
   3. RabbitMQ
