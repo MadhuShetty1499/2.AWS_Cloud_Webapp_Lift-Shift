@@ -173,39 +173,50 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
 
   - Create IAM user:
     + IAM => user => s3admin => attach policy (s3 full access) => create => open the user => security credentials => create access keys => command line interface => create => download CSV file (keep it safe)
-    ![]()
+    ![IAMuser](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/IAMuser.png)
     + In git bash, configure aws credentials - `$ aws configure` (provide access key, secret key, region[us-east-1], output format[json] that are found in CSV file)
 
   - Upload artifact to S3 bucket:
     + Create bucket - `$ aws s3 mb s3://<bucket_name>` (Note: Bucket name should be unique or else it won't create)
-    + Copy artifact to bucket - `$ aws s3 cp target/vprofilev2.war s3://<bucket_name>`
+    ![s3bucket](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/s3bucket.png)
+    + Copy artifact to bucket - `$ aws s3 cp target/vprofile-v2.war s3://<bucket_name>`
 
   - Deploy artifact on Tomcat server
     + Login to tomcat instance - `$ ssh -i <keypair> <user>@<publicIP>`
     + Install aws cli - `$ sudo apt update && sudo apt install awscli -y && aws --version`
-    + To access the S3 bucket, the instance needs AWS credentials to be configured as we did previously, or else we can create a role and attach it to the instance. Create a role in IAM => s3 admin => attach policy (s3 full access) => create => go to ec2 => click on tomcat instance => instance settings => modify IAM role => select s3 admin role => attach.
-    + Copy artifact from S3 to temp folder - `$ aws s3 cp s3://<bucket_name> /tmp/`
-    + Stop tomcat service - `$ systemctl stop tomcat9`
-    + Remove ROOT folder in tomcat directory - `$ rm -rf /var/lib/tomcat9/webapps/ROOT`
-    + Copy & rename artifact as ROOT.war - `$ cp /tmp/vprofilev2.war /var/lib/tomcat9/webapps/ROOT.war`
-    + Start the service - `$ systemctl start tomcat9`
-    + Check the application.properties file in /var/lib/tomcat9/webapps/ROOT/web-Inf/classes/application.properties
+    + To access the S3 bucket, the instance needs AWS credentials to be configured as we did previously, or else we can create a role and attach it to the instance. Create a role in IAM => AWS service => use case EC2 => attach policy (s3 full access) => role name (s3 admin) => create => go to ec2 => click on tomcat instance => actions => security => modify IAM role => select s3 admin role => update.
+    + Copy artifact from S3 to temp folder - `$ aws s3 cp s3://<bucket_name>/vprofile-v2.war /tmp/`
+    + Stop tomcat service - `$ sudo systemctl stop tomcat9`
+    + Remove ROOT folder in tomcat directory - `$ sudo rm -rf /var/lib/tomcat9/webapps/ROOT`
+    + Copy & rename artifact as ROOT.war - `$ sudo cp /tmp/vprofile-v2.war /var/lib/tomcat9/webapps/ROOT.war`
+    + Start the service - `$ sudo systemctl start tomcat9`
+    + switch to root user - `$ sudo -i`
+    + Check the application.properties file - `cat /var/lib/tomcat9/webapps/ROOT/WEB-INF/classes/application.properties`
 
   - Create Load Balancer:
-    + Create Target group => give name => port 8080 => health check (/login) => advanced setting => override port 8080 => healthy threshold 3secs => select tomcat instance => include as pending => create target
-    + Create Application load balancer => internet facing => select all AZ's => select Load balancer security group => listener (80 & 443) forward to target group => select certificate  => create
+    + Create Target group => instances => give name => port 8080 => health check (/login) => advanced setting => override port 8080 => healthy threshold 3secs => next => select tomcat instance => include as pending below => create target
+    ![targetgroup](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/target%20group.png)
+    + Create Application load balancer => name => internet facing => select all AZ's => select Load balancer security group => listener (80 & 443) forward to target group => select certificate  => create
     + Copy endpoint of load balancer => entry in domain service provider => CNAME => name (vprofile) => target (paste URL) => add
     + verify in the browser => `https://vprofile.<domain>`
+    ![webpage](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/webpage.png)
 
   - Create Autoscaling Group:
-    + Create AMI of tomcat instance => instance setting => images => create AMI
-    + Create launch configuration => choose created AMI => t2.micro => attach s3 admin role => select tomcat SG => select keypair => create
-    + Create autoscaling group => select launch configuration => select all subnets => Application load balancer => target group => health check ELB => min 1, desired 1, max 2 => tracking scaling policy => cpu utilization 50 => enable scale-in protection only if your instance should not get terminated => add SNS topic (Optional) => add tags => create
+    + Create AMI of tomcat instance => select => tomcat instance => actions => images => create image => give name => create image
+    ![AMI](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/AMI.png)
+
+    + Create launch template => choose created AMI in My AMI's => t2.micro => select keypair => select tomcat SG => create
+    ![LaunchTemplate](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/LaunchTemplate.png)
+
+    + Create autoscaling group => give name => select launch template => select default VPC and select all subnets => Attach existing load balancer => target group => health check ELB => min 1, desired 1, max 2 => tracking scaling policy => cpu utilization 50 => enable scale-in protection only if your instance should not get terminated => create
+    ![AutoScaling](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/Autoscaling.png)
+  
     + Autoscaling group creates a new tomcat instance, so terminate the tomcat instance which is created manually.
 
   - Validate:
     + verify in the browser => `https://vprofile.<domain>`
     + Login as admin_vp (username and password both) check the services
+    ![WebApp](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/web%20app.png)
 
   ### Credits:
-  <Github link>
+  https://github.com/hkhcoder/vprofile-project
