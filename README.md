@@ -84,14 +84,17 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Request public certificate => provide domain name as *.<<domain_name>> => DNS validation => RSA key => request & attach it to the Domain service provider & validate it.
     ![ACM](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/ACM.png)
     + Add CNAME and its value to the DNS service provider
-    + Note: In CNAME, remove your domain name at last and in value, remove fullstop.
+    + Note: In CNAME, remove your domain name at last and in value, remove fullstop. Wait for sometime till the certificate is issued.
     ![DNS_entry](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/DNS%20entry.png)
 
   - Create security groups
     1. For load balancer - Allow port 443 from any IP and 80 from any IP for debugging.
+
     2. for Tomcat - Allow port 8080 from the Load balancer security group and port 22 from my IP or anywhere for logging in.
-    3. for backend services (RabbitMQ, MySQL, Memcached) - Allow port 3306 for MySQL, port 11211 for RabbitMQ & port 5672 for Memcached from the Tomcat security group (Port's details are given in the application.properties file in source code).
+
+    3. for backend services (RabbitMQ, MySQL, Memcached) - Allow port 3306 for MySQL, port 11211 for RabbitMQ & port 5672 for Memcached from the Tomcat security group (Port's details are given in the [application.properties](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/src/main/resources/application.properties) file in source code).
     4. in backend security group - Allow all traffic from its security group (backend SG) for internal communication between backend services and port 22 from myIP or anywhere for logging in.
+    
 
   - Create key pair (pem)
 
