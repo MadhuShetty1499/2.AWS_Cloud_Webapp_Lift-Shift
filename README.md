@@ -80,7 +80,12 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
       ```
    
   ### Detailed steps:
-  - Create an ACM certificate & attach it to the Domain service provider & validate it.
+  - Create an ACM certificate
+    + Request public certificate => provide domain name as *.<<domain_name>> => DNS validation => RSA key => request & attach it to the Domain service provider & validate it.
+    ![ACM](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/ACM.png)
+    + Add CNAME and its value to the DNS service provider
+    + Note: In CNAME, remove your domain name at last and in value, remove fullstop.
+    ![DNS_entry](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/DNS%20entry.png)
 
   - Create security groups
     1. For load balancer - Allow port 443 from any IP and 80 from any IP for debugging.
