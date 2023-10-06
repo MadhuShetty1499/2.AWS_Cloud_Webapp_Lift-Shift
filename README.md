@@ -61,7 +61,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
       * Open Powershell as admin
         - `$ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))`
       * Press 'Y' when prompted
-      * verify $ choco --version
+      * verify `$ choco --version`
 
   2. Java11
       `$ choco install adoptopenjdk11 --version=11.0.11.9`
