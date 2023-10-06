@@ -158,9 +158,9 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
 
   - Create Route53 (For private DNS):
     + Create Hosted zone => Domain name (vprofile.in) => private hosted zone => us-east-1(region) and default VPC => create
-    + Create record => subdomain (db01) => Value (<<private ip of db01 instance>>) => A record => simple routing => create
-    + Create record => subdomain (mc01) => Value (<<private ip of mc01 instance>>) => A record => simple routing => create
-    + Create record => subdomain (rmq01) => Value (<<private ip of rmq01 instance>>) => A record => simple routing => create
+    + Create record => subdomain (db01) => Value (private ip of db01 instance) => A record => simple routing => create
+    + Create record => subdomain (mc01) => Value (private ip of mc01 instance) => A record => simple routing => create
+    + Create record => subdomain (rmq01) => Value (private ip of rmq01 instance) => A record => simple routing => create
     ![Route53](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/Route53.png)
 
   - Build & Deploy artifact:
