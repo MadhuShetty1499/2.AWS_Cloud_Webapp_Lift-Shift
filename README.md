@@ -97,9 +97,10 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     3. for backend services (RabbitMQ, MySQL, Memcached) - Allow port 3306 for MySQL, port 11211 for RabbitMQ & port 5672 for Memcached from the Tomcat security group (Port's details are given in the [application.properties](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/src/main/resources/application.properties) file in source code).
     4. in backend security group - Allow all traffic from its security group (backend SG) for internal communication between backend services and port 22 from myIP or anywhere for logging in.
     ![Backend-SG](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/backend-SG.png)
-    
+
 
   - Create key pair (pem)
+    ![keypair](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/keypair.png)
 
   - Create EC2 instance for MySQL: 
     + name - db01 & some tags
@@ -107,7 +108,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Instance type - t2.micro
     + Select key pair
     + With default VPC, select the backend security group
-    + in advanced settings, add user data(bash script = mysql.sh)
+    + in advanced details, add user data(bash script = [mysql.sh](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/userdata/mysql.sh))
     + launch
 
   - Create EC2 instance for Memcached: 
@@ -116,7 +117,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Instance type - t2.micro
     + Select key pair
     + With default VPC, select the backend security group
-    + in advanced settings, add user data(bash script = memcache.sh)
+    + in advanced details, add user data(bash script = [memcache.sh](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/userdata/memcache.sh))
     + launch  
 
   - Create EC2 instance for RabbitMQ: 
@@ -125,7 +126,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Instance type - t2.micro
     + Select key pair
     + With default VPC, select the backend security group
-    + in advanced settings, add user data(bash script = rabbitmq.sh)
+    + in advanced settings, add user data(bash script = [rabbitmq.sh](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/userdata/rabbitmq.sh))
     + launch 
 
   - Create EC2 instance for Tomcat: 
@@ -134,8 +135,9 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Instance type - t2.micro
     + Select key pair
     + With default VPC, select Tomcat security group
-    + in advanced settings, add user data(bash script = tomcat.sh)
+    + in advanced settings, add user data(bash script = [tomcat.sh](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/userdata/tomcat_ubuntu.sh))
     + launch 
+    ![Instances](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/instance.png)
 
   - Wait for about 10 minutes to bring up instances and provisioning services.
 
