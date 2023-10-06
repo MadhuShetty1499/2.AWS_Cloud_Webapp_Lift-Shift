@@ -167,11 +167,13 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Clone the source code to local - `$ git clone https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift.git`
     + In VS code => ctrl + shift + p => search default terminal profile => select git bash => view => terminal
     + Go to cloned repo => in src/main/resources/application.properties => change host names to db01.vprofile.in, mc01.vprofile.in, rmq01.vprofile.in
+    ![application.properties](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/application.properties.png)
     + In VS code terminal, check maven3, java11 and aws cli are installed.
     + Go to directory where pom.xml is present => build the artifact `$ mvn install`
 
   - Create IAM user:
-    + IAM => user => s3admin => attach policy (s3 full access) => create => download CSV file (keep it safe)
+    + IAM => user => s3admin => attach policy (s3 full access) => create => open the user => security credentials => create access keys => command line interface => create => download CSV file (keep it safe)
+    ![]()
     + In git bash, configure aws credentials - `$ aws configure` (provide access key, secret key, region[us-east-1], output format[json] that are found in CSV file)
 
   - Upload artifact to S3 bucket:
