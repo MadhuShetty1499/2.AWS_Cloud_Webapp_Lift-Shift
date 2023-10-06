@@ -8,7 +8,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
 
   ### Scenario:
   - Application services running on physical computers/VM.
-  - Workload in your Datacenter.
+  - Workload in your data center.
   - Virtualization team, DC ops team, Monitoring team, Sys Admin team, etc. are involved.
 
   ### Problem:
@@ -46,12 +46,12 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
   1. Login to AWS.
   2. Create a Key pair.
   3. Create Security Groups.
-  4. Launch instance with User data [Bash scripts <PATH>]
+  4. Launch instance with User data
   5. Update IP to name mapping in Route53.
   6. Build application from source code.
   7. Upload artifact to S3 bucket.
   8. Download the artifact to the Tomcat EC2 instance.
-  9. Set up ELB with HTTPS [Cert from ACM].
+  9. Set up ELB with HTTPS [Certificate from Amazon Certificate Manager].
   10. Map the ELB endpoint to the website name in your Domain service provider.
   11. Access the website and verify.
   12. Add Tomcat EC2 instance to the Autoscaling group for scalability.
@@ -84,7 +84,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Request public certificate => provide domain name as *.<<domain_name>> => DNS validation => RSA key => request & attach it to the Domain service provider & validate it.
     ![ACM](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/ACM.png)
     + Add CNAME and its value to the DNS service provider
-    + Note: In CNAME, remove your domain name at last and in value, remove fullstop. Wait for sometime till the certificate is issued.
+    + Note: In CNAME, remove your domain name at last, and in value, remove full-stop. Wait for some time till the certificate is issued.
     ![DNS_entry](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/DNS%20entry.png)
 
   - Create security groups
@@ -154,7 +154,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
                                 - rabbitmq-server (5672)
                                 - tomcat9 (8080)
     + In db01, check the database table - `$ mysql -u admin -padmin123 accounts` => `$ show tables;`
-    + It should show the tables, if not, there would be an error in pasting userdata. Terminate it and recreate, make sure to check the syntax after pasting it because, the syntax will autocorrect sometimes.
+    + It should show the tables, if not, there would be an error in pasting user data. Terminate and recreate, make sure to check the syntax after pasting it because the syntax will autocorrect sometimes.
 
   - Create Route53 (For private DNS):
     + Create Hosted zone => Domain name (vprofile.in) => private hosted zone => us-east-1(region) and default VPC => create
@@ -208,10 +208,10 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Create launch template => choose created AMI in My AMI's => t2.micro => select keypair => select tomcat SG => create
     ![LaunchTemplate](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/LaunchTemplate.png)
 
-    + Create autoscaling group => give name => select launch template => select default VPC and select all subnets => Attach existing load balancer => target group => health check ELB => min 1, desired 1, max 2 => tracking scaling policy => cpu utilization 50 => enable scale-in protection only if your instance should not get terminated => create
+    + Create autoscaling group => give name => select launch template => select default VPC and select all subnets => Attach existing load balancer => target group => health check ELB => min 1, desired 1, max 2 => tracking scaling policy => CPU utilization 50 => enable scale-in protection only if your instance should not get terminated => create
     ![AutoScaling](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/Autoscaling.png)
   
-    + Autoscaling group creates a new tomcat instance, so terminate the tomcat instance which is created manually.
+    + The Autoscaling group creates a new tomcat instance, so terminate the tomcat instance that is created manually.
 
   - Validate:
     + verify in the browser => `https://vprofile.<domain>`
