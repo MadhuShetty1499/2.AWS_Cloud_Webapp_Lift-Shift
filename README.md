@@ -1,5 +1,5 @@
 # Project-2: AWS_Cloud_Webapp_Lift-Shift
-In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_Tier_Web_App_Local_Setup)), I accomplished the setup of a multi-tier web application locally. In my latest endeavor, I seamlessly migrated this application from my local VM setup to Amazon Web Services (AWS) using the 'lift and shift' strategy. This migration allowed me to leverage AWS's scalability and reliability while minimizing disruptions to the application's functionality. Key steps included provisioning resources, migrating data, and optimizing the setup, resulting in improved scalability, reliability, and cost-efficiency.
+In my previous project ([Project-1](https://github.com/MadhuShetty1499/1.Multi_Tier_Web_App_Local_Setup)), I accomplished the setup of a multi-tier web application locally. In my latest endeavor, I seamlessly migrated this application from my local VM setup to Amazon Web Services (AWS) using the 'lift and shift' strategy. This migration allowed me to leverage AWS's scalability and reliability while minimizing disruptions to the application's functionality. Key steps included provisioning resources, migrating data, and optimizing the setup, resulting in improved scalability, reliability, and cost-efficiency.
 
   ### About the Project:
   - Multi-Tier web application stack [Vprofile].
@@ -28,7 +28,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
   - Automation.
 
   ### Vprofile project Architecture:
-  ![Architecture](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/Vprofile%20projectsetup%20Manual.png)
+  ![Architecture](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/Vprofile%20projectsetup%20Manual.png)
   1. Nginx (Load Balancer)
   2. Tomcat
   3. RabbitMQ
@@ -83,25 +83,25 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
   ### Detailed steps:
   - Create an ACM certificate
     + Request public certificate => provide domain name as *.<<domain_name>> => DNS validation => RSA key => request & attach it to the Domain service provider & validate it.
-    ![ACM](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/ACM.png)
+    ![ACM](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/ACM.png)
     + Add CNAME and its value to the DNS service provider
     + Note: In CNAME, remove your domain name at last, and in value, remove full-stop. Wait for some time till the certificate is issued.
-    ![DNS_entry](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/DNS%20entry.png)
+    ![DNS_entry](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/DNS%20entry.png)
 
   - Create security groups
     1. For load balancer - Allow port 443 from any IP and 80 from any IP for debugging.
-    ![LB-SG](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/LB-SG.png)
+    ![LB-SG](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/LB-SG.png)
 
     2. for Tomcat - Allow port 8080 from the Load balancer security group and port 22 from my IP or anywhere for logging in.
-    ![Tomcat-SG](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/tomcat-SG.png)
+    ![Tomcat-SG](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/tomcat-SG.png)
 
-    3. for backend services (RabbitMQ, MySQL, Memcached) - Allow port 3306 for MySQL, port 11211 for RabbitMQ & port 5672 for Memcached from the Tomcat security group (Port's details are given in the [application.properties](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/src/main/resources/application.properties) file in source code).
+    3. for backend services (RabbitMQ, MySQL, Memcached) - Allow port 3306 for MySQL, port 11211 for RabbitMQ & port 5672 for Memcached from the Tomcat security group (Port's details are given in the [application.properties](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/src/main/resources/application.properties) file in source code).
     4. in backend security group - Allow all traffic from its security group (backend SG) for internal communication between backend services and port 22 from myIP or anywhere for logging in.
-    ![Backend-SG](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/backend-SG.png)
+    ![Backend-SG](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/backend-SG.png)
 
 
   - Create key pair (pem)
-    ![keypair](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/keypair.png)
+    ![keypair](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/keypair.png)
 
   - Create EC2 instance for MySQL: 
     + name - db01 & some tags
@@ -109,7 +109,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Instance type - t2.micro
     + Select key pair
     + With default VPC, select the backend security group
-    + in advanced details, add user data(bash script = [mysql.sh](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/userdata/mysql.sh))
+    + in advanced details, add user data(bash script = [mysql.sh](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/userdata/mysql.sh))
     + launch
 
   - Create EC2 instance for Memcached: 
@@ -118,7 +118,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Instance type - t2.micro
     + Select key pair
     + With default VPC, select the backend security group
-    + in advanced details, add user data(bash script = [memcache.sh](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/userdata/memcache.sh))
+    + in advanced details, add user data(bash script = [memcache.sh](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/userdata/memcache.sh))
     + launch  
 
   - Create EC2 instance for RabbitMQ: 
@@ -127,7 +127,7 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Instance type - t2.micro
     + Select key pair
     + With default VPC, select the backend security group
-    + in advanced settings, add user data(bash script = [rabbitmq.sh](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/userdata/rabbitmq.sh))
+    + in advanced settings, add user data(bash script = [rabbitmq.sh](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/userdata/rabbitmq.sh))
     + launch 
 
   - Create EC2 instance for Tomcat: 
@@ -136,13 +136,13 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Instance type - t2.micro
     + Select key pair
     + With default VPC, select Tomcat security group
-    + in advanced settings, add user data(bash script = [tomcat.sh](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/userdata/tomcat_ubuntu.sh))
+    + in advanced settings, add user data(bash script = [tomcat.sh](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/userdata/tomcat_ubuntu.sh))
     + launch 
-    ![Instances](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/instance.png)
+    ![Instances](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/instance.png)
 
   - Wait for about 10 minutes to bring up instances and provisioning services.
 
-  Note: Those bash scripts contain installing and provisioning services. Go through the scripts [userdata](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/tree/main/userdata) and also you can install manually by typing those commands into your respective EC2 instances.
+  Note: Those bash scripts contain installing and provisioning services. Go through the scripts [userdata](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/tree/main/userdata) and also you can install manually by typing those commands into your respective EC2 instances.
 
   - Login to all instances and check the services are running:
     + to log in - `$ ssh -i <keypair> <user>@<publicIP>` (user name and ssh command can be found by selecting the required instance and clicking on connect => ssh client)
@@ -162,24 +162,24 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
     + Create record => subdomain (db01) => Value (private ip of db01 instance) => A record => simple routing => create
     + Create record => subdomain (mc01) => Value (private ip of mc01 instance) => A record => simple routing => create
     + Create record => subdomain (rmq01) => Value (private ip of rmq01 instance) => A record => simple routing => create
-    ![Route53](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/Route53.png)
+    ![Route53](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/Route53.png)
 
   - Build & Deploy artifact:
-    + Clone the source code to local - `$ git clone https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift.git`
+    + Clone the source code to local - `$ git clone https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift.git`
     + In VS code => ctrl + shift + p => search default terminal profile => select git bash => view => terminal
     + Go to cloned repo => in src/main/resources/application.properties => change host names to db01.vprofile.in, mc01.vprofile.in, rmq01.vprofile.in
-    ![application.properties](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/application.properties.png)
+    ![application.properties](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/application.properties.png)
     + In VS code terminal, check maven3, java11 and aws cli are installed.
     + Go to directory where pom.xml is present => build the artifact `$ mvn install`
 
   - Create IAM user:
     + IAM => user => s3admin => attach policy (s3 full access) => create => open the user => security credentials => create access keys => command line interface => create => download CSV file (keep it safe)
-    ![IAMuser](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/IAMuser.png)
+    ![IAMuser](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/IAMuser.png)
     + In git bash, configure aws credentials - `$ aws configure` (provide access key, secret key, region[us-east-1], output format[json] that are found in CSV file)
 
   - Upload artifact to S3 bucket:
     + Create bucket - `$ aws s3 mb s3://<bucket_name>` (Note: Bucket name should be unique or else it won't create)
-    ![s3bucket](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/s3bucket.png)
+    ![s3bucket](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/s3bucket.png)
     + Copy artifact to bucket - `$ aws s3 cp target/vprofile-v2.war s3://<bucket_name>`
 
   - Deploy artifact on Tomcat server
@@ -196,28 +196,28 @@ In my previous project ([Project-1](https://github.com/MadhuShetty1814/1.Multi_T
 
   - Create Load Balancer:
     + Create Target group => instances => give name => port 8080 => health check (/login) => advanced setting => override port 8080 => healthy threshold 3secs => next => select tomcat instance => include as pending below => create target
-    ![targetgroup](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/target%20group.png)
+    ![targetgroup](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/target%20group.png)
     + Create Application load balancer => name => internet facing => select all AZ's => select Load balancer security group => listener (80 & 443) forward to target group => select certificate  => create
     + Copy endpoint of load balancer => entry in domain service provider => CNAME => name (vprofile) => target (paste URL) => add
     + verify in the browser => `https://vprofile.<domain>`
-    ![webpage](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/webpage.png)
+    ![webpage](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/webpage.png)
 
   - Create Autoscaling Group:
     + Create AMI of tomcat instance => select => tomcat instance => actions => images => create image => give name => create image
-    ![AMI](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/AMI.png)
+    ![AMI](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/AMI.png)
 
     + Create launch template => choose created AMI in My AMI's => t2.micro => select keypair => select tomcat SG => create
-    ![LaunchTemplate](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/LaunchTemplate.png)
+    ![LaunchTemplate](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/LaunchTemplate.png)
 
     + Create autoscaling group => give name => select launch template => select default VPC and select all subnets => Attach existing load balancer => target group => health check ELB => min 1, desired 1, max 2 => tracking scaling policy => CPU utilization 50 => enable scale-in protection only if your instance should not get terminated => create
-    ![AutoScaling](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/Autoscaling.png)
+    ![AutoScaling](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/Autoscaling.png)
   
     + The Autoscaling group creates a new tomcat instance, so terminate the tomcat instance that is created manually.
 
   - Validate:
     + verify in the browser => `https://vprofile.<domain>`
     + Login as admin_vp (username and password both) check the services
-    ![WebApp](https://github.com/MadhuShetty1814/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/web%20app.png)
+    ![WebApp](https://github.com/MadhuShetty1499/2.AWS_Cloud_Webapp_Lift-Shift/blob/main/Images/web%20app.png)
 
   ### Credits:
   https://github.com/hkhcoder/vprofile-project
